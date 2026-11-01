@@ -1,376 +1,522 @@
 <x-admin-layout>
-
     <style>
-        .digicam-page h2 {
-            font-size: 24px;
-            font-weight: 700;
+        .admin-products {
+            width: 100%;
             color: #172b4d;
-            margin: 0 0 22px;
-        }
-
-        .digicam-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 3px 12px rgba(23, 43, 77, .06);
-            overflow-x: auto;
-        }
-
-        .digicam-toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 22px;
-        }
-
-        .digicam-search {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .digicam-page button,
-        .digicam-page input {
-            font: inherit;
-        }
-
-        .digicam-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 40px;
-            padding: 9px 15px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            background: #fff;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background .2s, color .2s, border-color .2s;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
             box-sizing: border-box;
         }
 
-        .digicam-btn-add {
-            color: #fff;
-            background: #4361ee;
-            border-color: #4361ee;
+        .admin-products *,
+        .admin-products *::before,
+        .admin-products *::after {
+            box-sizing: border-box;
         }
 
-        .digicam-btn-add:hover {
-            background: #3048c5;
-            border-color: #3048c5;
+        .admin-products h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 0 28px;
+            color: #172b4d;
         }
 
-        .digicam-search input {
-            width: 240px;
-            max-width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #d1d5db;
+        .product-panel {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, .06);
+            width: 100%;
+        }
+
+        .admin-alert {
+            padding: 16px 20px;
+            margin-bottom: 20px;
             border-radius: 8px;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .admin-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .admin-alert ul {
+            margin: 8px 0 0 22px;
+        }
+
+        .product-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-bottom: 26px;
+        }
+
+        .product-filter {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .product-filter input,
+        .product-filter select {
+            height: 48px;
+            padding: 0 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: #fff;
+            color: #334155;
+            font-family: inherit;
+            font-size: 16px;
             outline: none;
         }
 
-        .digicam-search input:focus {
+        .product-filter select {
+            min-width: 190px;
+        }
+
+        .product-filter input {
+            width: 260px;
+        }
+
+        .product-filter input:focus,
+        .product-filter select:focus {
             border-color: #4361ee;
             box-shadow: 0 0 0 3px rgba(67, 97, 238, .12);
         }
 
-        .digicam-search button {
+        .admin-products .btn-admin {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 13px 19px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.2;
+            white-space: nowrap;
+            transition: background .2s ease, color .2s ease;
+        }
+
+        .admin-products .btn-search {
+            height: 48px;
+            background: #4361ee;
+            color: #fff;
+        }
+
+        .admin-products .btn-search:hover,
+        .admin-products .btn-edit:hover {
+            background: #3049ca;
+        }
+
+        .admin-products .btn-add {
+            min-height: 48px;
+            background: #16a34a;
+            color: #fff;
+        }
+
+        .admin-products .btn-add:hover {
+            background: #15803d;
+        }
+
+        .admin-products .btn-edit {
+            min-width: 90px;
+            min-height: 46px;
+            background: #4361ee;
+            color: #fff;
+        }
+
+        .admin-products .btn-delete {
+            min-width: 90px;
+            min-height: 46px;
+            background: #fff;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+        }
+
+        .admin-products .btn-delete:hover {
+            background: #fee2e2;
+        }
+
+        .admin-products .btn-reset {
+            height: 48px;
+            background: #e5e7eb;
             color: #374151;
         }
 
-        .digicam-search button:hover {
-            background: #f3f4f6;
+        .admin-products .btn-reset:hover {
+            background: #d1d5db;
         }
 
-        .digicam-table {
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .product-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 700px;
+            table-layout: fixed;
+            font-size: 16px;
         }
 
-        .digicam-table th {
-            background: #f8fafc;
-            color: #64748b;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: .04em;
+        .product-table thead th {
+            background: #f1f5f9;
+            color: #334155;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 17px 14px;
+            border: 1px solid #cbd5e1;
+            text-align: left;
         }
 
-        .digicam-table th,
-        .digicam-table td {
-            padding: 16px 12px;
-            border-bottom: 1px solid #e5e7eb;
+        .product-table tbody td {
+            padding: 19px 14px;
+            border: 1px solid #cbd5e1;
             text-align: left;
             vertical-align: middle;
+            overflow-wrap: break-word;
         }
 
-        .digicam-table tbody tr:hover {
-            background: #fafbff;
+        .product-table tbody tr {
+            height: 100px;
         }
 
-        .digicam-product {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            min-width: 280px;
+        .product-table tbody tr:hover {
+            background: #f8fafc;
         }
 
-        .digicam-photo {
-            width: 64px;
-            height: 64px;
-            border-radius: 9px;
-            background: #eef1f6;
-            color: #374151;
+        .product-table .col-number {
+            width: 5%;
+        }
+
+        .product-table .col-image {
+            width: 10%;
+        }
+
+        .product-table .col-name {
+            width: 29%;
+        }
+
+        .product-table .col-price {
+            width: 20%;
+        }
+
+        .product-table .col-stock {
+            width: 10%;
+        }
+
+        .product-table .col-actions {
+            width: 26%;
+        }
+
+        .product-image {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #f8fafc;
+            display: block;
+        }
+
+        .no-image {
+            width: 75px;
+            height: 75px;
+            background: #f1f5f9;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            flex-shrink: 0;
-            object-fit: cover;
-        }
-
-        .digicam-name {
-            color: #172b4d;
-            font-weight: 700;
-        }
-
-        .digicam-muted {
             color: #64748b;
             font-size: 13px;
-            line-height: 1.5;
-            margin-top: 5px;
-            max-width: 430px;
+            text-align: center;
         }
 
-        .digicam-price {
+        .product-name {
+            font-size: 17px;
             font-weight: 700;
             color: #172b4d;
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+
+        .product-brand {
+            font-size: 15px;
+            color: #64748b;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: 500;
             white-space: nowrap;
         }
 
-        .digicam-stock {
-            display: inline-block;
-            padding: 6px 10px;
-            border-radius: 7px;
-            background: #eef2ff;
-            color: #4361ee;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
+        .product-stock {
+            font-size: 16px;
+            text-align: center !important;
         }
 
-        /* Tombol Edit dan Hapus */
-        .digicam-action-buttons {
+        .product-table th.col-actions {
+            text-align: center;
+        }
+
+        .product-table td.actions-cell {
+            text-align: center;
+        }
+
+        .product-actions {
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 12px;
             white-space: nowrap;
         }
 
-        .digicam-action-buttons form {
+        .product-actions form {
             margin: 0;
+            padding: 0;
         }
 
-        .digicam-btn-edit {
-            min-width: 76px;
-            color: #fff;
-            background: #4361ee;
-            border-color: #4361ee;
-        }
-
-        .digicam-btn-edit:hover {
-            color: #fff;
-            background: #3048c5;
-            border-color: #3048c5;
-        }
-
-        .digicam-btn-delete {
-            min-width: 76px;
-            color: #dc3545;
-            background: #fff;
-            border-color: #f0a4aa;
-        }
-
-        .digicam-btn-delete:hover {
-            color: #fff;
-            background: #dc3545;
-            border-color: #dc3545;
-        }
-
-        .digicam-empty {
-            text-align: center !important;
-            color: #64748b;
-            padding: 30px !important;
-        }
-
-        .digicam-alert {
-            background: #ecfdf5;
-            border: 1px solid #a7f3d0;
-            color: #047857;
+        .product-actions .btn-admin {
+            min-width: 90px;
+            min-height: 46px;
+            padding: 12px 15px;
+            font-size: 16px;
             border-radius: 8px;
-            padding: 12px 16px;
-            margin-bottom: 18px;
         }
 
-        @media (max-width: 600px) {
-            .digicam-card {
-                padding: 14px;
+        .admin-empty {
+            text-align: center !important;
+            padding: 40px 15px !important;
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        .empty-title {
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #334155;
+        }
+
+        .product-pagination {
+            margin-top: 26px;
+            font-size: 15px;
+        }
+
+        @media (max-width: 1100px) {
+            .product-panel {
+                padding: 22px;
             }
 
-            .digicam-toolbar {
+            .product-table {
+                min-width: 900px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .admin-products h2 {
+                font-size: 26px;
+            }
+
+            .product-panel {
+                padding: 15px;
+            }
+
+            .product-toolbar {
                 align-items: stretch;
+                flex-direction: column;
             }
 
-            .digicam-search input {
-                width: 150px;
+            .product-filter {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                width: 100%;
             }
 
-            .digicam-search {
-                flex-wrap: wrap;
+            .product-filter select,
+            .product-filter input,
+            .product-filter .btn-admin {
+                width: 100%;
+            }
+
+            .admin-products .btn-add {
+                width: 100%;
             }
         }
     </style>
 
-    <div class="digicam-page">
-
-        <h2>{{ $title }}</h2>
+    <div class="admin-products">
+        <h2>Manajemen Produk</h2>
 
         @if (session('success'))
-            <div class="digicam-alert">
+            <div class="admin-alert">
                 {{ session('success') }}
             </div>
         @endif
 
-        <div class="digicam-card">
+        @if ($errors->any())
+            <div class="admin-alert admin-error">
+                <strong>Terjadi kesalahan:</strong>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-            <div class="digicam-toolbar">
-
-                <a href="{{ route('digicam.create') }}"
-                   class="digicam-btn digicam-btn-add">
-                    + Tambah Digicam
-                </a>
-
-                <form class="digicam-search"
+        <div class="product-panel">
+            <div class="product-toolbar">
+                <form action="{{ route('digicam.index') }}"
                       method="GET"
-                      action="{{ route('digicam.index') }}">
+                      class="product-filter">
 
-                    <input type="text"
-                           name="cari"
-                           value="{{ request('cari') }}"
-                           placeholder="Cari digicam...">
+                    <select name="id_kategori">
+                        <option value="">Semua Kategori</option>
 
-                    <button type="submit" class="digicam-btn">
+                        @foreach ($kategoris as $kategori)
+                            <option
+                                value="{{ $kategori->id_kategori }}"
+                                {{ request('id_kategori') == $kategori->id_kategori ? 'selected' : '' }}>
+                                {{ $kategori->nama_kategori }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <input
+                        type="text"
+                        name="cari"
+                        value="{{ request('cari') }}"
+                        placeholder="Cari produk...">
+
+                    <button type="submit" class="btn-admin btn-search">
                         Cari
                     </button>
+
+                    @if (request()->filled('cari') || request()->filled('id_kategori'))
+                        <a href="{{ route('digicam.index') }}"
+                           class="btn-admin btn-reset">
+                            Reset
+                        </a>
+                    @endif
                 </form>
 
+                <a href="{{ route('digicam.create') }}"
+                   class="btn-admin btn-add">
+                    + Tambah Produk
+                </a>
             </div>
 
-            <table class="digicam-table">
-                <thead>
-                    <tr>
-                        <th>Produk</th>
-                        <th>Merek</th>
-                        <th>Harga</th>
-                        <th>Stok</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @forelse ($digicam as $item)
+            <div class="table-wrapper">
+                <table class="product-table">
+                    <thead>
                         <tr>
-                            <td>
-                                <div class="digicam-product">
+                            <th class="col-number">No</th>
+                            <th class="col-image">Image</th>
+                            <th class="col-name">Nama</th>
+                            <th class="col-price">Harga</th>
+                            <th class="col-stock">Stok</th>
+                            <th class="col-actions">Aksi</th>
+                        </tr>
+                    </thead>
 
-                                    @if (!empty($item->foto))
+                    <tbody>
+                        @forelse ($digicam as $item)
+                            <tr>
+                                <td>
+                                    {{ $digicam->firstItem() + $loop->index }}
+                                </td>
+
+                                <td>
+                                    @if ($item->foto)
                                         <img
-                                            class="digicam-photo"
-                                            src="{{ asset($item->foto) }}"
+                                            src="{{ asset('storage/' . $item->foto) }}"
                                             alt="{{ $item->nama }}"
-                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                                        >
+                                            class="product-image"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+                                        <div class="no-image" style="display:none;">
+                                            No Image
+                                        </div>
+                                    @else
+                                        <div class="no-image">
+                                            No Image
+                                        </div>
                                     @endif
+                                </td>
 
-                                    <div class="digicam-photo"
-                                         @if (!empty($item->foto))
-                                             style="display:none"
-                                         @endif>
-                                        CAM
+                                <td>
+                                    <div class="product-name">
+                                        {{ $item->nama }}
                                     </div>
+                                    <div class="product-brand">
+                                        {{ $item->merek }}
+                                    </div>
+                                </td>
 
+                                <td class="product-price">
+                                    Rp {{ number_format($item->harga, 0, ',', '.') }}
+                                </td>
+
+                                <td class="product-stock">
+                                    {{ $item->stok }}
+                                </td>
+
+                                <td class="actions-cell">
+                                    <div class="product-actions">
+                                        <a
+                                            href="{{ route('digicam.edit', $item->getKey()) }}"
+                                            class="btn-admin btn-edit">
+                                            Edit
+                                        </a>
+
+                                        <form
+                                            action="{{ route('digicam.destroy', $item->getKey()) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus produk ini?')">
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit"
+                                                    class="btn-admin btn-delete">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="admin-empty">
+                                    <div class="empty-title">
+                                        Produk tidak ditemukan
+                                    </div>
                                     <div>
-                                        <div class="digicam-name">
-                                            {{ $item->nama }}
-                                        </div>
-
-                                        <div class="digicam-muted">
-                                            {{ $item->deskripsi }}
-                                        </div>
+                                        Coba ubah kata pencarian atau pilih kategori lain.
                                     </div>
-
-                                </div>
-                            </td>
-
-                            <td>{{ $item->merek }}</td>
-
-                            <td class="digicam-price">
-                                Rp {{ number_format($item->harga, 0, ',', '.') }}
-                            </td>
-
-                            <td>
-                                <span class="digicam-stock">
-                                    {{ $item->stok }} unit
-                                </span>
-                            </td>
-
-                            <td>
-                                <div class="digicam-action-buttons">
-
-                                    <a
-                                        href="{{ route('digicam.edit', $item->id) }}"
-                                        class="digicam-btn digicam-btn-edit">
-                                        Edit
-                                    </a>
-
-                                    <form
-                                        action="{{ route('digicam.destroy', $item->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Yakin ingin menghapus digicam ini?')">
-
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button
-                                            type="submit"
-                                            class="digicam-btn digicam-btn-delete">
-                                            Hapus
-                                        </button>
-                                    </form>
-
-                                </div>
-                            </td>
-                        </tr>
-
-                    @empty
-                        <tr>
-                            <td colspan="5" class="digicam-empty">
-                                Belum ada produk digicam.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-
-            <div style="margin-top: 18px;">
-                {{ $digicam->links() }}
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
 
+            <div class="product-pagination">
+                {{ $digicam->appends(request()->query())->links() }}
+            </div>
         </div>
     </div>
-
 </x-admin-layout>

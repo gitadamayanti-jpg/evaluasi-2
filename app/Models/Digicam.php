@@ -19,7 +19,7 @@ class Digicam extends Model
         'deskripsi',
         'foto',
         'id_kategori',
-    ];
+    ]; 
 
     public function kategoriDigicam()
     {
